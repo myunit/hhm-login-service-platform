@@ -69,7 +69,7 @@ module.exports = function(Customer) {
           console.error('register result err: ' + res.ErrorDescription);
           cb(null, {status: 0, msg: res.ErrorDescription});
         } else {
-          cb(null, {status: 1, msg: '注册成功'});
+          cb(null, {status: 1, userId: res.Customer.SysNo, msg: '注册成功'});
         }
       });
     };
