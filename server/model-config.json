@@ -14,7 +14,8 @@
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "db",
+    "public": false
   },
   "AccessToken": {
     "dataSource": "db",
@@ -38,6 +39,6 @@
   },
   "MYToken": {
     "dataSource": "redisDS",
-    "public": true
+    "public": false
   }
 }
