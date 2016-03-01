@@ -31,5 +31,13 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "Customer": {
+    "dataSource": null,
+    "public": true
+  },
+  "MYToken": {
+    "dataSource": "redisDS",
+    "public": true
   }
 }
