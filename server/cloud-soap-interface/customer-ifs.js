@@ -24,3 +24,15 @@ CustomerIFS.prototype.getCaptcha = function (data, callback) {
     }
   });
 };
+
+CustomerIFS.prototype.register = function (data, callback) {
+  var Customer = this.DS.models.Customer;
+  var xml = customerObj.registerXML(data);
+  Customer.RegisterByVerCode(xml, function (err, response) {
+    try {
+      callback(err, JSON.parse(response.RegisterByVerCodeResult));
+    } catch (e) {
+      callback(err, {IsSuccess: false, ErrorDescription:'服务异常'});
+    }
+  });
+};

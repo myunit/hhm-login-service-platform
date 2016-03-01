@@ -30,3 +30,43 @@ exports.getCaptchaXML = function (obj) {
 
   return xml(xmlObj, true);
 };
+
+exports.registerXML = function (obj) {
+  var sex = 'man';
+  if (obj.sex === 2) {
+    sex = 'woman'
+  }
+
+  var xmlObj = [{
+    RegisterByVerCode: [
+      {
+        _attr: {
+          xmlns: 'http://tempuri.org/'
+        }
+      },
+      {
+        cellPhoneNo: obj.phone
+      },
+      {
+        passWord: obj.password
+      },
+      {
+        ename: ''
+      },
+      {
+        memberName: ''
+      },
+      {
+        sex: sex
+      },
+      {
+        userLink: ''
+      },
+      {
+        vercode: obj.code
+      }
+    ]
+  }];
+
+  return xml(xmlObj, true);
+};

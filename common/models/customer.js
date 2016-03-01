@@ -51,5 +51,46 @@ module.exports = function(Customer) {
       }
     );
 
+    //用户注册
+    Customer.register = function (data, cb) {
+      if (!data.phone) {
+        cb(null, {status: 0, msg: '参数错误'});
+        return;
+      }
+
+      customerIFS.register(data, function (err, res) {
+        if (err) {
+          console.error('register err: ' + err);
+          cb(null, {status: 0, msg: '操作异常'});
+          return;
+        }
+
+        if (!res.IsSuccess) {
+          console.error('register result err: ' + res.ErrorDescription);
+          cb(null, {status: 0, msg: res.ErrorDescription});
+        } else {
+          cb(null, {status: 1, msg: '注册成功'});
+        }
+      });
+    };
+
+    Customer.remoteMethod(
+      'register',
+      {
+        description: ['用户注册.返回结果-status:操作结果 0 成功 -1 失败, msg:附带信息'],
+        accepts: [
+          {
+            arg: 'data', type: 'object', required: true, http: {source: 'body'},
+            description: [
+              '注册信息 {"phone":"string", "password":"string", "code":"string"}, ',
+              'code验证码'
+            ]
+          }
+        ],
+        returns: {arg: 'repData', type: 'string'},
+        http: {path: '/register', verb: 'post'}
+      }
+    );
+
   });
 };

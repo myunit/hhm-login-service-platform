@@ -19,6 +19,12 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "getCaptcha"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "register"
     }
   ],
   "methods": {}
