@@ -1,3 +1,3 @@
-module.exports = function(MyToken) {
+module.exports = function(MYToken) {
 
 };
