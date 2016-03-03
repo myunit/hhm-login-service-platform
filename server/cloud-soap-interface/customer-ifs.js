@@ -20,6 +20,7 @@ CustomerIFS.prototype.getCaptcha = function (data, callback) {
     try {
       callback(err, JSON.parse(response.SendVerificationCodeResult));
     } catch (e) {
+      console.error('CustomerIFS getCaptcha Exception: ' + e);
       callback(err, {IsSuccess: false, ErrorInfo:'服务异常'});
     }
   });
@@ -32,6 +33,7 @@ CustomerIFS.prototype.register = function (data, callback) {
     try {
       callback(err, JSON.parse(response.RegisterByVerCodeResult));
     } catch (e) {
+      console.error('CustomerIFS register Exception: ' + e);
       callback(err, {IsSuccess: false, ErrorDescription:'服务异常'});
     }
   });
@@ -44,6 +46,7 @@ CustomerIFS.prototype.login = function (obj, callback) {
     try {
       callback(err, JSON.parse(response.LogInResult));
     } catch (e) {
+      console.error('CustomerIFS login Exception: ' + e);
       callback(err, {IsSuccess: false, ErrorDescription:'服务异常'});
     }
   });

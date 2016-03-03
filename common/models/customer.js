@@ -93,15 +93,108 @@ module.exports = function(Customer) {
       }
     );
 
-    //登录
-    Customer.login = function (data, loginCb) {
+    //用户注册(自动登录)
+    Customer.registerAndLogin = function (data, regCb) {
+      if (!data.phone) {
+        cb(null, {status: 0, msg: '参数错误'});
+        return;
+      }
+
       var user = data.phone,
         myToken = app_self.models.MYToken;
 
+      async.waterfall(
+        [
+          function (cb) {
+            customerIFS.register(data, function (err, res) {
+              if (err) {
+                console.error('register err: ' + err);
+                cb(null, {status: 0, msg: '操作异常'});
+                return;
+              }
+
+              if (!res.IsSuccess) {
+                console.error('register result err: ' + res.ErrorDescription);
+                cb({status: 0, msg: res.ErrorDescription});
+              } else {
+                cb(null);
+              }
+            });
+          },
+          function (cb) {
+            myToken.destroyAll({userId: user}, function (err) {
+              if (err) {
+                cb({status:0, msg: '操作异常'});
+              } else {
+                cb(null);
+              }
+            });
+          },
+          function (cb) {
+            customerIFS.login(data, function (err, res) {
+              if (err) {
+                console.error('login err: ' + err);
+                cb({status:0, msg: '操作异常'});
+                return;
+              }
+
+              if (!res.IsSuccess) {
+                console.error('login result err: ' + res.ErrorDescription);
+                cb({status:0, msg: res.ErrorDescription});
+              } else {
+                cb(null, {status: 1, customer: res.Customer, msg: ''});
+              }
+            });
+          },
+          function (msg, cb) {
+            myToken.create({userId: user}, function (err, token) {
+              if (err) {
+                cb({status:0, msg: '操作异常'});
+              } else {
+                msg.token = token;
+                msg.service = serviceCfg;
+                cb(null, msg);
+              }
+            });
+          }
+        ],
+        function (err, msg) {
+          if (err) {
+            regCb(null, err);
+          } else {
+            regCb(null, msg);
+          }
+        }
+      );
+    };
+
+    Customer.remoteMethod(
+      'registerAndLogin',
+      {
+        description: ['用户注册.返回结果-status:操作结果 0 成功 -1 失败, msg:附带信息'],
+        accepts: [
+          {
+            arg: 'data', type: 'object', required: true, http: {source: 'body'},
+            description: [
+              '注册信息(注册成功后,自动登录) {"phone":"string", "password":"string", "code":"string"}, ',
+              'code验证码'
+            ]
+          }
+        ],
+        returns: {arg: 'repData', type: 'string'},
+        http: {path: '/register-and-login', verb: 'post'}
+      }
+    );
+
+    //登录
+    Customer.login = function (data, loginCb) {
       if (!data.phone || !data.password) {
         loginCb(null, {status:0, msg: '手机号和密码不能为空'});
         return;
       }
+
+      var user = data.phone,
+        myToken = app_self.models.MYToken;
 
       async.waterfall(
         [
@@ -123,6 +216,7 @@ module.exports = function(Customer) {
               }
 
               if (!res.IsSuccess) {
+                console.error('login result err: ' + res.ErrorDescription);
                 cb({status:0, msg: res.ErrorDescription});
               } else {
                 cb(null, {status: 1, customer: res.Customer, msg: ''});
@@ -170,7 +264,6 @@ module.exports = function(Customer) {
 
     //退出登录
     Customer.logout = function (cb) {
-      //TODO: cloud logic
       var ctx = loopback.getCurrentContext(),
         token = ctx.get('accessToken'),
         myToken = app_self.models.MYToken;
