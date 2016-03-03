@@ -116,3 +116,25 @@ exports.forgetPasswordXML = function (obj) {
 
   return xml(xmlObj, true);
 };
+
+exports.modifyPasswordXML = function (obj) {
+
+  var xmlObj = [{
+    ModifyPassword: [
+      {
+        _attr: {
+          xmlns: 'http://tempuri.org/'
+        }
+      },
+      {
+        customerSysNo: obj.userId
+      },
+      {
+        pwd: obj.newPassword
+      }
+
+    ]
+  }];
+
+  return xml(xmlObj, true);
+};

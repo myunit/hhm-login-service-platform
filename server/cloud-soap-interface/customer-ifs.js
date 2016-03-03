@@ -64,3 +64,16 @@ CustomerIFS.prototype.forgetPassword = function (obj, callback) {
     }
   });
 };
+
+CustomerIFS.prototype.modifyPassword = function (obj, callback) {
+  var Customer = this.DS.models.Customer;
+  var xml = customerObj.modifyPasswordXML(obj);
+  Customer.ModifyPassword(xml, function (err, response) {
+    try {
+      callback(err, JSON.parse(response.ModifyPasswordResult));
+    } catch (e) {
+      console.error('CustomerIFS modifyPassword Exception: ' + e);
+      callback(err, {IsSuccess: false, ErrorDescription:'服务异常'});
+    }
+  });
+};

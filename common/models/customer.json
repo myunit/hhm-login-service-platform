@@ -43,6 +43,13 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "forgetPassword"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "modifyPassword"
     }
   ],
   "methods": {}

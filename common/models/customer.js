@@ -328,5 +328,45 @@ module.exports = function(Customer) {
       }
     );
 
+    //修改密码
+    Customer.modifyPassword = function (data, cb) {
+      if (!data.userId) {
+        cb(null, {status: 0, msg: '参数错误'});
+        return;
+      }
+
+      customerIFS.modifyPassword(data, function (err, res) {
+        if (err) {
+          console.error('modifyPassword err: ' + err);
+          cb(null, {status: 0, msg: '操作异常'});
+          return;
+        }
+
+        if (!res.IsSuccess) {
+          console.error('modifyPassword result err: ' + res.ErrorInfo);
+          cb(null, {status: 0, msg: res.ErrorInfo});
+        } else {
+          cb(null, {status: 1, msg: '修改成功'});
+        }
+      });
+    };
+
+    Customer.remoteMethod(
+      'modifyPassword',
+      {
+        description: ['修改密码.返回结果-status:操作结果 0 成功 -1 失败, msg:附带信息'],
+        accepts: [
+          {
+            arg: 'data', type: 'object', required: true, http: {source: 'body'},
+            description: [
+              '修改密码信息 {"userId":int, "newPassword":"string"}'
+            ]
+          }
+        ],
+        returns: {arg: 'repData', type: 'string'},
+        http: {path: '/modify-password', verb: 'post'}
+      }
+    );
+
   });
 };
