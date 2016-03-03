@@ -288,5 +288,45 @@ module.exports = function(Customer) {
       }
     );
 
+    //忘记密码
+    Customer.forgetPassword = function (data, cb) {
+      if (!data.phone) {
+        cb(null, {status: 0, msg: '参数错误'});
+        return;
+      }
+
+      customerIFS.forgetPassword(data, function (err, res) {
+        if (err) {
+          console.error('forgetPassword err: ' + err);
+          cb(null, {status: 0, msg: '操作异常'});
+          return;
+        }
+
+        if (!res.IsSuccess) {
+          console.error('forgetPassword result err: ' + res.ErrorInfo);
+          cb(null, {status: 0, msg: res.ErrorInfo});
+        } else {
+          cb(null, {status: 1, msg: '修改成功'});
+        }
+      });
+    };
+
+    Customer.remoteMethod(
+      'forgetPassword',
+      {
+        description: ['忘记密码.返回结果-status:操作结果 0 成功 -1 失败, msg:附带信息'],
+        accepts: [
+          {
+            arg: 'data', type: 'object', required: true, http: {source: 'body'},
+            description: [
+              '忘记密码信息 {"phone":"string", "newPassword":"string", "code":"string"}'
+            ]
+          }
+        ],
+        returns: {arg: 'repData', type: 'string'},
+        http: {path: '/forget-password', verb: 'post'}
+      }
+    );
+
   });
 };

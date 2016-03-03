@@ -91,3 +91,28 @@ exports.loginXML = function (obj) {
 
   return xml(xmlObj, true);
 };
+
+exports.forgetPasswordXML = function (obj) {
+
+  var xmlObj = [{
+    ModifyPasswordByVerCode: [
+      {
+        _attr: {
+          xmlns: 'http://tempuri.org/'
+        }
+      },
+      {
+        mobile: obj.phone
+      },
+      {
+        newPassword: obj.newPassword
+      },
+      {
+        verCode: obj.code
+      }
+
+    ]
+  }];
+
+  return xml(xmlObj, true);
+};

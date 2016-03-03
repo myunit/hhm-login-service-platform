@@ -37,6 +37,12 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "registerAndLogin"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "forgetPassword"
     }
   ],
   "methods": {}
