@@ -1,6 +1,7 @@
 var loopback = require('loopback');
 var async = require('async');
 var CustomerIFS = require('../../server/cloud-soap-interface/customer-ifs');
+var serviceCfg = require('../../server/service-address-config');
 
 module.exports = function(Customer) {
   Customer.getApp(function (err, app) {
@@ -89,6 +90,108 @@ module.exports = function(Customer) {
         ],
         returns: {arg: 'repData', type: 'string'},
         http: {path: '/register', verb: 'post'}
+      }
+    );
+
+    //登录
+    Customer.login = function (data, loginCb) {
+      var user = data.phone,
+        myToken = app_self.models.MYToken;
+
+      if (!data.phone || !data.password) {
+        loginCb(null, {status:0, msg: '手机号和密码不能为空'});
+        return;
+      }
+
+      async.waterfall(
+        [
+          function (cb) {
+            myToken.destroyAll({userId: user}, function (err) {
+              if (err) {
+                cb({status:0, msg: '操作异常'});
+              } else {
+                cb(null);
+              }
+            });
+          },
+          function (cb) {
+            customerIFS.login(data, function (err, res) {
+              if (err) {
+                console.log('login err: ' + err);
+                cb({status:0, msg: '操作异常'});
+                return;
+              }
+
+              if (!res.IsSuccess) {
+                cb({status:0, msg: res.ErrorDescription});
+              } else {
+                cb(null, {status: 1, customer: res.Customer, msg: ''});
+              }
+            });
+          },
+          function (msg, cb) {
+            myToken.create({userId: user}, function (err, token) {
+              if (err) {
+                cb({status:0, msg: '操作异常'});
+              } else {
+                msg.token = token;
+                msg.service = serviceCfg;
+                cb(null, msg);
+              }
+            });
+          }
+        ],
+        function (err, msg) {
+          if (err) {
+            loginCb(null, err);
+          } else {
+            loginCb(null, msg);
+          }
+        }
+      );
+    };
+
+    Customer.remoteMethod(
+      'login',
+      {
+        description: ['用户登录.返回结果-status:操作结果 0 失败 -1 成功, customer:用户信息, token:用户token, service:服务集群信息, msg:附带信息'],
+        accepts: [
+          {
+            arg: 'credentials', type: 'object', required: true, http: {source: 'body'},
+            description: [
+              '用户登录信息(JSON string) {"phone":"string", "password":"string"}'
+            ]
+          }
+        ],
+        returns: {arg: 'repData', type: 'string'},
+        http: {path: '/login', verb: 'post'}
+      }
+    );
+
+    //退出登录
+    Customer.logout = function (cb) {
+      //TODO: cloud logic
+      var ctx = loopback.getCurrentContext(),
+        token = ctx.get('accessToken'),
+        myToken = app_self.models.MYToken;
+
+      var logOutToken = new myToken({id: token.id});
+      logOutToken.destroy(function (err) {
+        if (err) {
+          cb(null, {status: -1, msg: '退出异常'});
+        } else {
+          cb(null, {status: 0, msg: '退出成功'});
+        }
+      });
+
+    };
+
+    Customer.remoteMethod(
+      'logout',
+      {
+        description: ['用户退出登录(access token).返回结果-status:操作结果 0 成功 -1 失败, msg:附带信息'],
+        returns: {arg: 'repData', type: 'string'},
+        http: {path: '/logout', verb: 'post'}
       }
     );
 

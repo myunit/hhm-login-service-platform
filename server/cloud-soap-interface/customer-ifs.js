@@ -36,3 +36,15 @@ CustomerIFS.prototype.register = function (data, callback) {
     }
   });
 };
+
+CustomerIFS.prototype.login = function (obj, callback) {
+  var Customer = this.DS.models.Customer;
+  var xml = customerObj.loginXML(obj);
+  Customer.LogIn(xml, function (err, response) {
+    try {
+      callback(err, JSON.parse(response.LogInResult));
+    } catch (e) {
+      callback(err, {IsSuccess: false, ErrorDescription:'服务异常'});
+    }
+  });
+};

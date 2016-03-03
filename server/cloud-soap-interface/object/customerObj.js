@@ -70,3 +70,24 @@ exports.registerXML = function (obj) {
 
   return xml(xmlObj, true);
 };
+
+exports.loginXML = function (obj) {
+
+  var xmlObj = [{
+    LogIn: [
+      {
+        _attr: {
+          xmlns: 'http://tempuri.org/'
+        }
+      },
+      {
+        cellPhoneNo: obj.phone
+      },
+      {
+        password: obj.password
+      }
+    ]
+  }];
+
+  return xml(xmlObj, true);
+};
