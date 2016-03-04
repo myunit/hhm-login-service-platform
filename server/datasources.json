@@ -11,9 +11,9 @@
     "connector": "redis"
   },
   "CustomerSoap": {
-    "url": "http://10.10.5.130:7008/PC_API/CustomerService.svc",
+    "url": "http://122.225.60.230:7008/PC_API/CustomerService.svc",
     "name": "CustomerSoap",
     "connector": "soap",
-    "wsdl": "http://10.10.5.130:7008/PC_API/CustomerService.svc?WSDL"
+    "wsdl": "http://122.225.60.230:7008/PC_API/CustomerService.svc?WSDL"
   }
 }
