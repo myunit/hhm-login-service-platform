@@ -1,0 +1,5 @@
+{
+  "customerService": {
+    "url": "127.0.0.1:30001/customer/v1"
+  }
+}
