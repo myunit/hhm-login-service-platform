@@ -4,5 +4,11 @@
   },
   "ProductService": {
     "url": "127.0.0.1:30002/product/v1"
+  },
+  "OrderService": {
+    "url": "127.0.0.1:30003/order/v1"
+  },
+  "ShoppingService": {
+    "url": "127.0.0.1:30004/order/v1"
   }
 }
