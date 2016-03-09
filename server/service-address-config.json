@@ -1,14 +1,14 @@
 {
   "CustomerService": {
-    "url": "127.0.0.1:30001/customer/v1"
+    "url": "120.27.148.53:30001/customer/v1"
   },
   "ProductService": {
-    "url": "127.0.0.1:30002/product/v1"
+    "url": "120.27.148.53:30002/product/v1"
   },
   "OrderService": {
-    "url": "127.0.0.1:30003/order/v1"
+    "url": "120.27.148.53:30003/order/v1"
   },
   "ShoppingService": {
-    "url": "127.0.0.1:30004/order/v1"
+    "url": "120.27.148.53:30004/order/v1"
   }
 }
