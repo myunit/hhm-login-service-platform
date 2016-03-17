@@ -9,6 +9,6 @@
     "url": "120.27.148.53:30003/order/v1"
   },
   "ShoppingService": {
-    "url": "120.27.148.53:30004/order/v1"
+    "url": "120.27.148.53:30004/shopping/v1"
   }
 }
