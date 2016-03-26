@@ -368,5 +368,40 @@ module.exports = function(Customer) {
       }
     );
 
+    //判断手机是否已注册
+    Customer.isRegistered = function (data, cb) {
+      if (!data.phone) {
+        cb(null, {status: 0, msg: '参数错误'});
+        return;
+      }
+
+      customerIFS.isRegistered(data, function (err, res) {
+        if (err) {
+          console.error('isRegistered err: ' + err);
+          cb(null, {status: 0, msg: '操作异常'});
+          return;
+        }
+
+        cb(null, {status: 1, isRegistered: res})
+      });
+    };
+
+    Customer.remoteMethod(
+      'isRegistered',
+      {
+        description: ['判断手机是否已注册.返回结果-status:操作结果 0 成功 -1 失败, msg:附带信息'],
+        accepts: [
+          {
+            arg: 'data', type: 'object', required: true, http: {source: 'body'},
+            description: [
+              '判断手机是否已注册 {"phone":"string"}'
+            ]
+          }
+        ],
+        returns: {arg: 'repData', type: 'string'},
+        http: {path: '/is-registered', verb: 'post'}
+      }
+    );
+
   });
 };

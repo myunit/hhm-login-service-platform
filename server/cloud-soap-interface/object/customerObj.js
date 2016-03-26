@@ -138,3 +138,21 @@ exports.modifyPasswordXML = function (obj) {
 
   return xml(xmlObj, true);
 };
+
+exports.isRegisteredXML = function (obj) {
+
+  var xmlObj = [{
+    GetCustomerPhoneIsExist: [
+      {
+        _attr: {
+          xmlns: 'http://tempuri.org/'
+        }
+      },
+      {
+        CellPhoneNo: obj.phone
+      }
+    ]
+  }];
+
+  return xml(xmlObj, true);
+};
