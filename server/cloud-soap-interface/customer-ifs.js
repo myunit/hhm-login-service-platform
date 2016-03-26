@@ -70,7 +70,6 @@ CustomerIFS.prototype.modifyPassword = function (obj, callback) {
   var xml = customerObj.modifyPasswordXML(obj);
   Customer.ModifyPasswordWithCheck(xml, function (err, response) {
     try {
-      console.log(response.ModifyPasswordWithCheckResult);
       callback(err, JSON.parse(response.ModifyPasswordWithCheckResult));
     } catch (e) {
       console.error('CustomerIFS modifyPassword Exception: ' + e);
