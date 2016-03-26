@@ -120,17 +120,20 @@ exports.forgetPasswordXML = function (obj) {
 exports.modifyPasswordXML = function (obj) {
 
   var xmlObj = [{
-    ModifyPassword: [
+    ModifyPasswordWithCheck: [
       {
         _attr: {
           xmlns: 'http://tempuri.org/'
         }
       },
       {
-        customerSysNo: obj.userId
+        customerNo: obj.userId
       },
       {
-        pwd: obj.newPassword
+        newPassword: obj.newPassword
+      },
+      {
+        oldPassword: obj.oldPassword
       }
 
     ]
