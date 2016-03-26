@@ -359,7 +359,7 @@ module.exports = function(Customer) {
           {
             arg: 'data', type: 'object', required: true, http: {source: 'body'},
             description: [
-              '修改密码信息 {"userId":int, "newPassword":"string"}'
+              '修改密码信息 {"userId":int, "oldPassword":"string", "newPassword":"string"}'
             ]
           }
         ],
