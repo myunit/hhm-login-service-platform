@@ -109,7 +109,7 @@ module.exports = function(Customer) {
             customerIFS.register(data, function (err, res) {
               if (err) {
                 console.error('register err: ' + err);
-                cb(null, {status: 0, msg: '操作异常'});
+                cb({status: 0, msg: '操作异常'});
                 return;
               }
 
