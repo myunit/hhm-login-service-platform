@@ -130,10 +130,10 @@ exports.modifyPasswordXML = function (obj) {
         customerNo: obj.userId
       },
       {
-        newPassword: obj.newPassword
+        oldPassword: obj.oldPassword
       },
       {
-        oldPassword: obj.oldPassword
+        newPassword: obj.newPassword
       }
 
     ]
