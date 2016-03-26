@@ -77,3 +77,16 @@ CustomerIFS.prototype.modifyPassword = function (obj, callback) {
     }
   });
 };
+
+CustomerIFS.prototype.isRegistered = function (obj, callback) {
+  var Customer = this.DS.models.Customer;
+  var xml = customerObj.isRegisteredXML(obj);
+  Customer.GetCustomerPhoneIsExist(xml, function (err, response) {
+    try {
+      callback(err, JSON.parse(response.GetCustomerPhoneIsExistResult));
+    } catch (e) {
+      console.error('CustomerIFS isRegistered Exception: ' + e);
+      callback(err, {IsSuccess: false, ErrorDescription:'服务异常'});
+    }
+  });
+};
