@@ -344,7 +344,7 @@ module.exports = function(Customer) {
 
         if (!res.IsSuccess) {
           console.error('modifyPassword result err: ' + res.ErrorInfo);
-          cb(null, {status: 0, msg: res.ErrorInfo});
+          cb(null, {status: 0, msg: '旧密码不正确'});
         } else {
           cb(null, {status: 1, msg: '修改成功'});
         }
