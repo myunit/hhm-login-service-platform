@@ -1,14 +1,14 @@
 {
   "CustomerService": {
-    "url": "http://hhmapp.haohaomai.com:30001/customer/v1"
+    "url": "http://120.27.148.53:30001/customer/v1"
   },
   "ProductService": {
-    "url": "http://hhmapp.haohaomai.com:30002/product/v1"
+    "url": "http://120.27.148.53:30002/product/v1"
   },
   "OrderService": {
-    "url": "http://hhmapp.haohaomai.com:30003/order/v1"
+    "url": "http://120.27.148.53:30003/order/v1"
   },
   "ShoppingService": {
-    "url": "http://hhmapp.haohaomai.com:30004/shopping/v1"
+    "url": "http://120.27.148.53:30004/shopping/v1"
   }
 }
