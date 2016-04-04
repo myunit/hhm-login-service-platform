@@ -60,7 +60,7 @@ exports.registerXML = function (obj) {
         sex: sex
       },
       {
-        userLink: ''
+        userLink: obj.inviteCode || ''
       },
       {
         vercode: obj.code
