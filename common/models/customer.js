@@ -83,8 +83,8 @@ module.exports = function(Customer) {
           {
             arg: 'data', type: 'object', required: true, http: {source: 'body'},
             description: [
-              '注册信息 {"phone":"string", "password":"string", "code":"string"}, ',
-              'code验证码'
+              '注册信息 {"phone":"string", "password":"string", "code":"string", "inviteCode":"string"}, ',
+              'code验证码, inviteCode:邀请码'
             ]
           }
         ],
